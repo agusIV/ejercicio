@@ -87,6 +87,14 @@ html, body {
     font-size: 300%;
     text-align: center;
 }
+
+.preparados{
+    position: absolute;
+    width: 100%;
+    top: 20%;
+    font-size: 150%;
+    text-align: center;
+}
 .ejercicio{
     position: absolute;
     width: 100%;
