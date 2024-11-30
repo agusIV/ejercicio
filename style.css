@@ -116,6 +116,17 @@ html, body {
 .boton:active{
     transform: scale(0.95);
 }
+
+.reiniciarRutina{
+    position: absolute;
+    top: 30%;
+    left: 0%;
+    width: 100%;
+    cursor: pointer;
+    font-size: clamp(40px, 7vw, 7vw);
+    text-align: center;
+    transition: transform 0.1s ease;
+}
 /*---------------------------VERTICAL-------------------------*/
 @media (max-aspect-ratio: 2/3){
     #contenedor{

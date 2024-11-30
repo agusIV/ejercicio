@@ -36,23 +36,23 @@ preparados.textContent = "preparados..."
 
 const ejercicio = document.createElement("img")
 const ejercicios = [
-    ["ejercicios/a-1-1.gif", "ejercicios/a-1-2.gif", "ejercicios/a-1-3.gif", 
-    "ejercicios/a-2-1.gif", "ejercicios/a-2-2.gif", "ejercicios/a-2-3.gif", 
-    "ejercicios/a-3-1.gif", "ejercicios/a-3-2.gif", "ejercicios/a-3-3.gif", 
-    "ejercicios/a-4-1.gif", "ejercicios/a-4-2.gif", "ejercicios/a-4-3.gif", 
-    "ejercicios/a-5-1.gif", "ejercicios/a-5-2.gif", "ejercicios/a-5-3.gif", 
-    "ejercicios/a-6.gif"],
-    ["ejercicios/b-1-1.gif", "ejercicios/b-1-2.gif", "ejercicios/b-1-3.gif", 
-    "ejercicios/b-2-1.gif", "ejercicios/b-2-2.gif", "ejercicios/b-2-3.gif", 
-    "ejercicios/b-3-1.gif", "ejercicios/b-3-2.gif", "ejercicios/b-3-3.gif", 
-    "ejercicios/b-4-1.gif", "ejercicios/b-4-2.gif", "ejercicios/b-4-3.gif", 
-    "ejercicios/b-5-1.gif", "ejercicios/b-5-2.gif", "ejercicios/b-5-3.gif", 
-    "ejercicios/b-6.gif"]
+    [["ejercicios/a-1-1.gif", "ejercicios/a-1-2.gif", "ejercicios/a-1-3.gif"], 
+    ["ejercicios/a-2-1.gif", "ejercicios/a-2-2.gif", "ejercicios/a-2-3.gif"], 
+    ["ejercicios/a-3-1.gif", "ejercicios/a-3-2.gif", "ejercicios/a-3-3.gif"], 
+    ["ejercicios/a-4-1.gif", "ejercicios/a-4-2.gif", "ejercicios/a-4-3.gif"], 
+    ["ejercicios/a-5-1.gif", "ejercicios/a-5-2.gif", "ejercicios/a-5-3.gif"], 
+    ["ejercicios/a-6.gif"]],
+    [["ejercicios/b-1-1.gif", "ejercicios/b-1-2.gif", "ejercicios/b-1-3.gif"], 
+    ["ejercicios/b-2-1.gif", "ejercicios/b-2-2.gif", "ejercicios/b-2-3.gif"], 
+    ["ejercicios/b-3-1.gif", "ejercicios/b-3-2.gif", "ejercicios/b-3-3.gif"], 
+    ["ejercicios/b-4-1.gif", "ejercicios/b-4-2.gif", "ejercicios/b-4-3.gif"], 
+    ["ejercicios/b-5-1.gif", "ejercicios/b-5-2.gif", "ejercicios/b-5-3.gif"], 
+    ["ejercicios/b-6.gif"]]
 ];   
-let rutina = 0;   
-ejercicioActual = 0
-ejercicio.src = ejercicios[rutina][ejercicioActual]  
-let intervaloEjercicio;
+let rutina = 0;
+let set = 0;   
+let ejercicioActual = 0
+ejercicio.src = ejercicios[rutina][set][ejercicioActual]  
 
 const pausa = document.createElement("img")
 pausa.src = "pausa.png"
@@ -83,16 +83,9 @@ function iniciarRutina (){
     console.log("iniciarRutina");
 
     if(!intervaloCrono){        
-        intervaloCrono = setInterval(actualizarCrono, 1000)
+        intervaloCrono = setInterval(actualizar, 1000)
     }
-    ejercicio.src = ejercicios[rutina][ejercicioActual]
 }
-
-let descanso = {
-    activo: true,
-    tiempo: 10
-}
-let cont = 0
 
 function formatoTiempo(numero){
     //console.log("formatoTiempo");
@@ -101,7 +94,7 @@ function formatoTiempo(numero){
 }
 
 function actualizarCrono(){
-    console.log("actualizarCrono");
+    //console.log("actualizarCrono");
     
     segundos++
     if (segundos === 60){
@@ -113,7 +106,31 @@ function actualizarCrono(){
         horas++;
     }
     cronometro.textContent = `${formatoTiempo(horas)}:${formatoTiempo(minutos)}:${formatoTiempo(segundos)}`;
+}
 
+let descanso = {
+    activo: true,
+    tiempo: 10
+}
+let cont = 0
+
+function actualizarEjercicio(){
+    //console.log("actualizarEjercicio");
+
+    if (ejercicioActual < 2) {
+        ejercicioActual++
+        reanudar()
+    }
+    else{
+        ejercicioActual = 0
+        set++
+        preparados.textContent = "cambio de set"
+    }
+    if (set === 5 & ejercicioActual === 1) final()
+    ejercicio.src = ejercicios[rutina][set][ejercicioActual]
+}
+
+function acctualizarDescanso() {
     if (descanso.activo){
         if (segundos <= descanso.tiempo){
             preparados.textContent = "preparados..."
@@ -121,7 +138,6 @@ function actualizarCrono(){
                 descanso.activo = false
                 reiniciar()
                 reanudar()
-                descanso.activo = false
             }
         }
     }else{
@@ -131,21 +147,26 @@ function actualizarCrono(){
             pausar()
             reiniciar()
             actualizarEjercicio()
-            if(cont < 3) reanudar()
-            else{ 
-                cont = 0
-                preparados.textContent = "cambio de set"
-            }
         }
     }
 }
+const tic = new Audio("tic.mp3")
+const ticFinal = new Audio("tic final.mp3")
 
-function actualizarEjercicio(){
-    //console.log("actualizarEjercicio");
-    
-    ejercicioActual++
-    cont++
-    ejercicio.src = ejercicios[rutina][ejercicioActual]
+function actualizarSonido() {
+    if (descanso.activo){
+        if(segundos === 0) ticFinal.play()
+        if(segundos >= 8 & segundos <= 9)tic.play()
+    } else {
+        if (segundos === 0) ticFinal.play()
+        if (segundos >= 55 & segundos <= 59) tic.play()
+    }
+}
+
+function actualizar() {
+    actualizarCrono()
+    acctualizarDescanso()
+    actualizarSonido()
 }
 
 pausa.addEventListener("click", () => {
@@ -185,4 +206,30 @@ function reiniciar() {
     minutos = 0;
     horas = 0;
     cronometro.textContent = "00:00:00";
+}
+
+const reiniciarRutina = document.createElement("div")
+reiniciarRutina.textContent = "reiniciar rutina"
+
+reiniciarRutina.addEventListener("click", () => {
+    aparecer()
+    iniciarRutina()
+})
+
+function final() {
+    setTimeout(() => {
+        cronometro.classList.add("ocultar")
+        preparados.classList.add("ocultar")
+        ejercicio.classList.add("ocultar")
+        pausa.classList.add("ocultar")
+        setTimeout(() => {
+            cronometro.remove()
+            preparados.remove()
+            ejercicio.remove()
+            pausa.remove()
+            reiniciarRutina.classList.add("aparecer")
+            reiniciarRutina.classList.add("reiniciarRutina")
+            contenedor.appendChild(reiniciarRutina)
+        }, 500);
+    }, 100);
 }
