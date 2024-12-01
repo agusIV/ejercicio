@@ -159,7 +159,7 @@ function actualizarSonido() {
         if(segundos >= 8 & segundos <= 9)tic.play()
     } else {
         if (segundos === 0) ticFinal.play()
-        if (segundos >= 55 & segundos <= 59) tic.play()
+        if (segundos >= 56 & segundos <= 59) tic.play()
     }
 }
 
@@ -212,8 +212,16 @@ const reiniciarRutina = document.createElement("div")
 reiniciarRutina.textContent = "reiniciar rutina"
 
 reiniciarRutina.addEventListener("click", () => {
-    aparecer()
-    iniciarRutina()
+    setTimeout(() => {
+        reiniciarRutina.classList.add("ocultar")
+        setTimeout(() => {
+            reiniciarRutina.remove()
+            set = 0
+            ejercicioActual = 0
+            aparecer()
+            iniciarRutina()
+        }, 500);
+    }, 100)
 })
 
 function final() {
