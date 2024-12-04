@@ -7,7 +7,6 @@ const rutinaB = document.getElementById("rutinaB")
 function mostrarRutina(R){
     console.log("mostrarRutina");
 
-    rutina = R
     setTimeout(() => {
         bienvenida.classList.add("ocultar")
         elegir.classList.add("ocultar")
@@ -18,7 +17,7 @@ function mostrarRutina(R){
             elegir.remove();
             rutinaA.remove()
             rutinaB.remove()
-            aparecer()
+            aparecer(R)
             iniciarRutina()
         }, 500)
     }, 100)
@@ -49,17 +48,16 @@ const ejercicios = [
     ["ejercicios/b-5-1.gif", "ejercicios/b-5-2.gif", "ejercicios/b-5-3.gif"], 
     ["ejercicios/b-6.gif"]]
 ];   
-let rutina = 0;
+let rutina;
 let set = 0;   
 let ejercicioActual = 0
-ejercicio.src = ejercicios[rutina][set][ejercicioActual]  
 
 const pausa = document.createElement("img")
 pausa.src = "pausa.png"
 const play = document.createElement("img")
 play.src = "play.png"
 
-function aparecer(){ 
+function aparecer(R){ 
     console.log("aparecer");
     
     cronometro.classList.add("aparecer")
@@ -73,6 +71,8 @@ function aparecer(){
     ejercicio.classList.add("aparecer")
     ejercicio.classList.add("ejercicio")
     contenedor.appendChild(ejercicio)
+    rutina = R
+    ejercicio.src = ejercicios[rutina][set][ejercicioActual]  
 
     pausa.classList.add("aparecer")
     pausa.classList.add("boton")
@@ -85,6 +85,12 @@ function iniciarRutina (){
     if(!intervaloCrono){        
         intervaloCrono = setInterval(actualizar, 1000)
     }
+}
+
+function actualizar() {
+    actualizarCrono()
+    acctualizarDescanso()
+    actualizarSonido()
 }
 
 function formatoTiempo(numero){
@@ -163,11 +169,7 @@ function actualizarSonido() {
     }
 }
 
-function actualizar() {
-    actualizarCrono()
-    acctualizarDescanso()
-    actualizarSonido()
-}
+
 
 pausa.addEventListener("click", () => {
     pausar()
