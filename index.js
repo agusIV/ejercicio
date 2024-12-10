@@ -4,9 +4,11 @@ const elegir = document.getElementById("elegir")
 const rutinaA = document.getElementById("rutinaA")
 const rutinaB = document.getElementById("rutinaB")
 
+let rutina;
 function mostrarRutina(R){
     console.log("mostrarRutina");
 
+    rutina = R
     setTimeout(() => {
         bienvenida.classList.add("ocultar")
         elegir.classList.add("ocultar")
@@ -17,7 +19,7 @@ function mostrarRutina(R){
             elegir.remove();
             rutinaA.remove()
             rutinaB.remove()
-            aparecer(R)
+            aparecer()
             iniciarRutina()
         }, 500)
     }, 100)
@@ -48,16 +50,15 @@ const ejercicios = [
     ["ejercicios/b-5-1.gif", "ejercicios/b-5-2.gif", "ejercicios/b-5-3.gif"], 
     ["ejercicios/b-6.gif"]]
 ];   
-let rutina;
 let set = 0;   
 let ejercicioActual = 0
 
-const pausa = document.createElement("img")
-pausa.src = "pausa.png"
 const play = document.createElement("img")
 play.src = "play.png"
+const pausa = document.createElement("img")
+pausa.src = "pausa.png"
 
-function aparecer(R){ 
+function aparecer(){ 
     console.log("aparecer");
     
     cronometro.classList.add("aparecer")
@@ -71,7 +72,6 @@ function aparecer(R){
     ejercicio.classList.add("aparecer")
     ejercicio.classList.add("ejercicio")
     contenedor.appendChild(ejercicio)
-    rutina = R
     ejercicio.src = ejercicios[rutina][set][ejercicioActual]  
 
     pausa.classList.add("aparecer")
@@ -118,23 +118,6 @@ let descanso = {
     activo: true,
     tiempo: 10
 }
-let cont = 0
-
-function actualizarEjercicio(){
-    //console.log("actualizarEjercicio");
-
-    if (ejercicioActual < 2) {
-        ejercicioActual++
-        reanudar()
-    }
-    else{
-        ejercicioActual = 0
-        set++
-        preparados.textContent = "cambio de set"
-    }
-    if (set === 5 & ejercicioActual === 1) final()
-    ejercicio.src = ejercicios[rutina][set][ejercicioActual]
-}
 
 function acctualizarDescanso() {
     if (descanso.activo){
@@ -156,6 +139,23 @@ function acctualizarDescanso() {
         }
     }
 }
+
+function actualizarEjercicio(){
+    //console.log("actualizarEjercicio");
+
+    if (ejercicioActual < 2) {
+        ejercicioActual++
+        reanudar()
+    }
+    else{
+        ejercicioActual = 0
+        set++
+        preparados.textContent = "cambio de set"
+    }
+    if (set === 5 & ejercicioActual === 1) final()
+    ejercicio.src = ejercicios[rutina][set][ejercicioActual]
+}
+
 const tic = new Audio("tic.mp3")
 const ticFinal = new Audio("tic final.mp3")
 
