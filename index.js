@@ -156,8 +156,8 @@ function actualizarEjercicio(){
     ejercicio.src = ejercicios[rutina][set][ejercicioActual]
 }
 
-const tic = new Audio("tic.mp3")
-const ticFinal = new Audio("tic final.mp3")
+const tic = new Audio("8-bit-collect-sound-timer-countdown.wav")
+const ticFinal = new Audio("8-bit-sound-1-up.wav")
 
 function actualizarSonido() {
     if (descanso.activo){
